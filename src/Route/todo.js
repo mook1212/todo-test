@@ -13,6 +13,13 @@ function Todo() {
             <div className={cs("container1")}>
 
                 <div className={cs("todo")}>
+                    <div className={cs("todo-header")}>
+
+                    </div>
+
+                    <div className={cs("todo-main")}>
+
+                    </div>
 
                 </div>
                 

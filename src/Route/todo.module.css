@@ -1,10 +1,52 @@
+body {
+    /* background-color: 233,243,242; */
+    background-color: rgba(240, 248, 255, 0.356)
+}
+
 .todo-container {
     height: 900px;
-    border: 1px solid black;
     display: flex;
     justify-content: center;
 }
-.container1,.container2 {
-    border: 1px solid red;
+
+.container1,
+.container2 {
     width: 50%;
+    display: flex;
+
+}
+
+.container1 {
+    justify-content: center;
+    align-items: center;
+}
+
+.container2 {
+    flex-direction: column;
+    justify-content: center;
+}
+
+.todo {
+    border-radius: 2%;
+    width: 90%;
+    height: 90%;
+    background-color: white;
+    box-shadow: 2px 2px 2px 2px grey;
+}
+
+.calendar {
+    width: 95%;
+    height: 40%;
+    margin: 20px 0px;
+    background-color: white;
+    box-shadow: 2px 2px 2px 2px grey;
+}
+
+.memo {
+    width: 95%;
+    height: 40%;
+    background-color: white;
+    box-shadow: 2px 2px 2px 2px grey;
+    margin: 20px 0px;
+
 }
