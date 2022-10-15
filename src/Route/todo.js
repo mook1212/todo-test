@@ -1,16 +1,21 @@
 import { createContext, useState } from "react"
 import { Route, Routes, Link, useNavigate, Outlet } from 'react-router-dom'
-import style from './todo.module.css'
 import classNames from 'classnames/bind'
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
+import style from './todo.module.css'
 
 const cs = classNames.bind(style);
 
 function Todo() {
 
     const [value, onChange] = useState(new Date());
+
+    let [list, setList] = useState()
+    let [none, setNone] = useState('none')
+    let [block, setBlock] = useState('block')
+    let [flex, setFlex] = useState('flex')
 
     return (
         <>
@@ -29,6 +34,22 @@ function Todo() {
 
                         </div>
 
+                        <div className={cs("add")}>
+
+                            <div className={cs("add-input",`${none}`)}>
+                                <input type='text' />
+                                <button>생성</button>
+                            </div>
+
+                            <button className={cs("add-btn",`${block}`)} onClick={()=> {
+                                setBlock('none')
+                                setNone('block')
+                            }}><i class="fa-solid fa-plus"></i></button>
+                            <button className={cs("close-btn",`${none}`)} onClick={()=> {
+                                setBlock('block')
+                                setNone('none')
+                            }}><i class="fa-solid fa-xmark"></i></button>
+                        </div>
                     </div>
 
                 </div>
@@ -39,7 +60,9 @@ function Todo() {
                     </div>
 
                     <div className={cs("memo")}>
-
+                        <div className={cs("none-memo")}>
+                            <h1>현재 선택된 항목이 없습니다.</h1>
+                        </div>
                     </div>
 
                 </div>

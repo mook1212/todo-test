@@ -1,3 +1,13 @@
+.none {
+    display: none;
+}
+.block {
+    display: block;
+}
+.flex {
+    display: flex;
+}
+
 body {
     /* background-color: 233,243,242; */
     background-color: rgba(240, 248, 255, 0.356)
@@ -25,6 +35,7 @@ body {
     justify-content: center;
 }
 
+
 .todo {
     border-radius: 2%;
     width: 90%;
@@ -41,8 +52,63 @@ body {
     border-bottom: 1px solid grey;
     width: 90%;
 }
+.todo-header h1 {
+    color: rgba(0, 0, 255, 0.61)
+}
+.todo-main {
+    height: 65%;
+    width: 80%;
+}
+.add {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+.add-input input {
+    width: 200px;
+    height: 30px;
+    margin-right: 10px;
+}
+.add-input button {
+    height: 35px;
+    background-color:rgba(0, 0, 255, 0.61);
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
+
+
+.add-btn{
+    width: 50px;
+    height: 50px;
+    margin: 15px 0px 20px 0px;
+    border-radius: 50px;
+    border: none;
+    background-color:rgba(0, 0, 255, 0.61);
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+.close-btn{
+    width: 50px;
+    height: 50px;
+    margin: 15px 0px 20px 0px;
+    border-radius: 50px;
+    border: none;
+    background-color: rgba(255, 0, 0, 0.658);
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+
 
 .todo-calendar {
+    border-radius: 10px;
     width: 95%;
     height: 40%;
     margin: 20px 0px;
@@ -52,13 +118,20 @@ body {
 .calendar {
     width: 100%;
     height: 100%;
+    border-radius: 10px;
+
 }
 
 .memo {
+    border-radius: 10px;
     width: 95%;
     height: 40%;
     background-color: white;
     box-shadow: 2px 2px 2px 2px grey;
     margin: 20px 0px;
 
+}
+.none-memo {
+    text-align: center;
+    font-family: 'Nanum Gothic', sans-serif;
 }
