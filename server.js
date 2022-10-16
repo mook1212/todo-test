@@ -18,6 +18,5 @@ MongoClient.connect('mongodb+srv://skdo223:apsode1@cluster0.udjmfja.mongodb.net/
 
     app.listen(8000, function () {
         console.log('listening on 8080')
-        
     });
 });
