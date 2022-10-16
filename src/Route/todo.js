@@ -4,6 +4,7 @@ import classNames from 'classnames/bind'
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
+import Swal from 'sweetalert2'
 import style from './todo.module.css'
 
 const cs = classNames.bind(style);
@@ -37,8 +38,17 @@ function Todo() {
                         <div className={cs("add")}>
 
                             <div className={cs("add-input",`${none}`)}>
-                                <input type='text' />
-                                <button>생성</button>
+                                <input id="add-input" type='text' />
+                                <button onClick={()=> {
+                                    let val = document.getElementById('add-input').value
+                                    if (val == '') {
+                                        Swal.fire('일정을 입력 해주세요.')
+                                    } else if ( val != '') {
+                                        Swal.fire('일정이 추가 되었습니다.')
+                                        setBlock('block')
+                                        setNone('none')
+                                    }
+                                }}>생성</button>
                             </div>
 
                             <button className={cs("add-btn",`${block}`)} onClick={()=> {
