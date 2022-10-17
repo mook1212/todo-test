@@ -53,7 +53,7 @@ function Todo() {
             .catch(() => {
                 console.log("실패");
             });
-    }, moment(value).format("YYYY년 MM월 DD일"))
+    }, [moment(value).format("YYYY년 MM월 DD일"), block])
 
 
 
@@ -95,10 +95,17 @@ function Todo() {
                                         console.log(list_name);
 
                                         return (
-                                            <h1>{list_name}</h1>
+                                            <div className={cs("main-list")}>
+                                                <p>{i + 1}. {list_name}</p>
+
+                                                <div className={cs("list-icon")}>
+                                                    <i class="fa-solid fa-pen"></i>
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </div>
+                                            </div>
                                         )
                                     })
-                                    : <h1>비어있음</h1>
+                                    : ''
                             }
                         </div>
 

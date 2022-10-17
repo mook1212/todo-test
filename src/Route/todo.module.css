@@ -1,3 +1,6 @@
+* {
+    margin: 0px;
+}
 .none {
     display: none;
 }
@@ -53,13 +56,45 @@ body {
     width: 90%;
 }
 .todo-header h1 {
-    color: rgba(0, 0, 255, 0.61)
+    color: rgba(0, 0, 255, 0.61);
+    margin: 20px 0px;
 }
 .todo-main {
     height: 65%;
-    width: 80%;
+    width: 85%;
     text-align: left;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 35px;
+    font-weight: bold;
 }
+
+.todo-main i {
+    font-size: 25px;
+}
+.main-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 15%;
+}
+.list-icon {
+    color: grey;
+}
+.list-icon i:first-child {
+    margin-right: 25px;
+}
+
+.main-list p,i {
+    cursor: pointer;
+}
+.main-list p:hover {
+    color: grey;
+}
+
+.main-list i:hover {
+    color: black;
+}
+
 .add {
     display: flex;
     flex-direction: column;
@@ -135,6 +170,7 @@ body {
 .none-memo {
     text-align: center;
     font-family: 'Nanum Gothic', sans-serif;
+    margin-top: 20px;
 }
 
 .highlight {
