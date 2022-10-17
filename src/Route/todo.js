@@ -2,11 +2,12 @@ import { createContext, useState, useEffect } from "react"
 import { Route, Routes, Link, useNavigate, Outlet } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import 'react-calendar/dist/Calendar.css';
 import style from './todo.module.css'
+import '../App.css'
 
 const cs = classNames.bind(style);
 
@@ -18,8 +19,21 @@ function Todo() {
     let [none, setNone] = useState('none')
     let [block, setBlock] = useState('block')
     let [flex, setFlex] = useState('flex')
+    let [cal, setCal] = useState(moment(value).format("YYYY년 MM월 DD일"))
+    // setCal(moment(value).format("YYYY년 MM월 DD일"))
 
-    let [filter,setFilter] = useState()
+    const marks = [
+        '2022-10-16',
+        '2022-10-17',
+        '2022-10-18',
+        '2022-10-19',
+    ];
+
+
+
+
+    // DB에 일정 데이터 조회
+    let [filter, setFilter] = useState()
     useEffect(() => {
         axios.get('http://localhost:8000/list-confirm')
             .then(res => {
@@ -28,29 +42,28 @@ function Todo() {
                     return data.title === moment(value).format("YYYY년 MM월 DD일")
                 })
                 setFilter(DBfilter)
-                console.log(filter);
             })
             .catch(() => {
                 console.log("실패");
             });
-    }, [none])
+    }, [block])
+    console.log(filter);
 
-    function list_confirm () {
-        
+
+
+    function list_add() {
+        let val = document.getElementById('add-input').value
+        axios.post('http://localhost:8000/todolist', {
+            title: moment(value).format("YYYY년 MM월 DD일"),
+            name: val + 123
+        })
+            .then(function (res) {
+                console.log(res);
+            })
+            .catch(() => {
+                console.log("실패");
+            });
     }
-
-    // function list_add() {
-    //     axios.post('http://localhost:8000/todolist', {
-    //         title: moment(value).format("YYYY년 MM월 DD일"),
-    //         name: val
-    //     })
-    //         .then(function (res) {
-    //             console.log(res);
-    //         })
-    //         .catch(() => {
-    //             console.log("실패");
-    //         });
-    // }
 
     return (
         <>
@@ -79,7 +92,9 @@ function Todo() {
                                         Swal.fire('일정을 입력 해주세요.')
                                     } else if (val != '') {
                                         Swal.fire('일정이 추가 되었습니다.')
-
+                                        if (filter.length == 0) {
+                                            list_add()
+                                        }
                                         setBlock('block')
                                         setNone('none')
                                     }
@@ -99,9 +114,22 @@ function Todo() {
 
                 </div>
 
+
+
                 <div className={cs("container2")}>
                     <div className={cs("todo-calendar")}>
-                        <Calendar className={cs('calendar')} onChange={onChange} value={value} />
+                        <Calendar className={cs('calendar')} onChange={onChange} value={value}
+                            tileContent={({ date, view }) => {
+                                if (marks.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+                                    return (
+                                        <>
+                                            <div className={cs('mark')}>
+                                                <div className={cs("dot")}></div>
+                                            </div>
+                                        </>
+                                    );
+                                }
+                            }} />
                     </div>
 
                     <div className={cs("memo")}>

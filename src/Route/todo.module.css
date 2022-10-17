@@ -135,3 +135,22 @@ body {
     text-align: center;
     font-family: 'Nanum Gothic', sans-serif;
 }
+
+.highlight {
+    background: red;
+    color: red;
+}
+.mark {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+.dot {
+    height: 8px;
+    width: 8px;
+    background-color: #f87171;
+    border-radius: 50%;
+    display: flex;
+    margin-left: 1px;
+}
