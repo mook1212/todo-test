@@ -18,6 +18,7 @@ function Todo() {
     let [none, setNone] = useState('none')
     let [block, setBlock] = useState('block')
     let [flex, setFlex] = useState('flex')
+    let [textbox, setTextbox] = useState('none')
 
 
 
@@ -92,17 +93,33 @@ function Todo() {
                                     // <h1>안빔</h1>
                                     filter.map((a, i) => {
                                         let list_name = filter[i].name
+                                        let text_id = 'list-text' + i
                                         console.log(list_name);
 
                                         return (
-                                            <div className={cs("main-list")}>
-                                                <p>{i + 1}. {list_name}</p>
+                                            <>
+                                                <div className={cs("main-list")}>
+                                                    <p>{i + 1}. {list_name}</p>
 
-                                                <div className={cs("list-icon")}>
-                                                    <i class="fa-solid fa-pen"></i>
-                                                    <i class="fa-solid fa-trash"></i>
+                                                    <div className={cs("list-icon")}>
+                                                        <i class="fa-solid fa-pen" onClick={() => {
+                                                            document.querySelector(`.text-container${i}`).style.display = 'block'
+                                                            document.getElementById(text_id).value = '안녕하세요'
+                                                        }}></i>
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </div>
                                                 </div>
-                                            </div>
+
+                                                <div className={cs(`text-container${i}`,'none')}>
+                                                    <div className={cs('text-box')}>
+                                                        {/* <input id={text_id} className={cs('list-text')} type='textarea'></input> */}
+                                                        <textarea id={text_id} className={cs('list-text')}></textarea>
+                                                        <button onClick={() => {
+                                                            document.querySelector(`.text-container${i}`).style.display = 'none'
+                                                        }}>확인</button>
+                                                    </div>
+                                                </div>
+                                            </>
                                         )
                                     })
                                     : ''
