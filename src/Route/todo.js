@@ -28,26 +28,39 @@ function Todo() {
         '2022-10-18',
         '2022-10-19',
     ];
+    console.log(marks);
 
 
+    
+    let [filter, setFilter] = useState() // 현재 날짜와 맞는 title 데이터
 
+    let [DBdate,setDBDate] = useState([]) // DB에 있는 모든 title 데이터 
 
     // DB에 일정 데이터 조회
-    let [filter, setFilter] = useState()
+
     useEffect(() => {
         axios.get('http://localhost:8000/list-confirm')
+
             .then(res => {
                 console.log(res);
+                // 현재 날짜와 맞는 title 데이터 조회
                 const DBfilter = res.data.filter((data) => {
                     return data.title === moment(value).format("YYYY년 MM월 DD일")
                 })
                 setFilter(DBfilter)
+
+                // 모든 title 데이터 조회
+                let day = res.data.map(a => a.title);
+                setDBDate(day)
             })
+
             .catch(() => {
                 console.log("실패");
             });
     }, [block])
-    console.log(filter);
+    console.log(DBdate);
+
+    // console.log(filter);
 
 
 
@@ -55,7 +68,7 @@ function Todo() {
         let val = document.getElementById('add-input').value
         axios.post('http://localhost:8000/todolist', {
             title: moment(value).format("YYYY년 MM월 DD일"),
-            name: val + 123
+            name: val
         })
             .then(function (res) {
                 console.log(res);
@@ -120,7 +133,7 @@ function Todo() {
                     <div className={cs("todo-calendar")}>
                         <Calendar className={cs('calendar')} onChange={onChange} value={value}
                             tileContent={({ date, view }) => {
-                                if (marks.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+                                if (DBdate.find((x) => x === moment(date).format("YYYY년 MM월 DD일"))) {
                                     return (
                                         <>
                                             <div className={cs('mark')}>
