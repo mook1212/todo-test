@@ -15,26 +15,18 @@ function Todo() {
 
     const [value, onChange] = useState(new Date());
 
-    let [list, setList] = useState()
     let [none, setNone] = useState('none')
     let [block, setBlock] = useState('block')
     let [flex, setFlex] = useState('flex')
-    let [cal, setCal] = useState(moment(value).format("YYYY년 MM월 DD일"))
-    // setCal(moment(value).format("YYYY년 MM월 DD일"))
-
-    const marks = [
-        '2022-10-16',
-        '2022-10-17',
-        '2022-10-18',
-        '2022-10-19',
-    ];
-    console.log(marks);
 
 
-    
-    let [filter, setFilter] = useState() // 현재 날짜와 맞는 title 데이터
 
-    let [DBdate,setDBDate] = useState([]) // DB에 있는 모든 title 데이터 
+    let [filter, setFilter] = useState([]) // 현재 날짜와 맞는 데이터
+
+    let [list, setList] = useState() // 현재 날짜와 맞는 name 데이터
+
+    let [DBdate, setDBDate] = useState([]) // DB에 있는 모든 title 데이터 
+
 
     // DB에 일정 데이터 조회
 
@@ -42,12 +34,16 @@ function Todo() {
         axios.get('http://localhost:8000/list-confirm')
 
             .then(res => {
-                console.log(res);
+
                 // 현재 날짜와 맞는 title 데이터 조회
                 const DBfilter = res.data.filter((data) => {
                     return data.title === moment(value).format("YYYY년 MM월 DD일")
                 })
+                let list = DBfilter.map(a => a.name)
                 setFilter(DBfilter)
+                setList(list)
+                console.log(DBfilter);
+                // console.log(list);
 
                 // 모든 title 데이터 조회
                 let day = res.data.map(a => a.title);
@@ -57,10 +53,8 @@ function Todo() {
             .catch(() => {
                 console.log("실패");
             });
-    }, [block])
-    console.log(DBdate);
+    }, moment(value).format("YYYY년 MM월 DD일"))
 
-    // console.log(filter);
 
 
 
@@ -92,7 +86,20 @@ function Todo() {
                         </div>
 
                         <div className={cs("todo-main")}>
+                            {
+                                filter != ''
+                                    ?
+                                    // <h1>안빔</h1>
+                                    filter.map((a, i) => {
+                                        let list_name = filter[i].name
+                                        console.log(list_name);
 
+                                        return (
+                                            <h1>{list_name}</h1>
+                                        )
+                                    })
+                                    : <h1>비어있음</h1>
+                            }
                         </div>
 
                         <div className={cs("add")}>
@@ -105,9 +112,10 @@ function Todo() {
                                         Swal.fire('일정을 입력 해주세요.')
                                     } else if (val != '') {
                                         Swal.fire('일정이 추가 되었습니다.')
-                                        if (filter.length == 0) {
-                                            list_add()
-                                        }
+                                        // if (filter.length == 0) {
+                                        // }
+                                        list_add()
+
                                         setBlock('block')
                                         setNone('none')
                                     }

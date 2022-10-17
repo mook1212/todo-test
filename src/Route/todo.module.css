@@ -58,6 +58,7 @@ body {
 .todo-main {
     height: 65%;
     width: 80%;
+    text-align: left;
 }
 .add {
     display: flex;
