@@ -1,10 +1,11 @@
-import { createContext, useState } from "react"
+import { createContext, useState, useEffect } from "react"
 import { Route, Routes, Link, useNavigate, Outlet } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
 import Swal from 'sweetalert2'
+import axios from 'axios'
 import style from './todo.module.css'
 
 const cs = classNames.bind(style);
@@ -17,6 +18,39 @@ function Todo() {
     let [none, setNone] = useState('none')
     let [block, setBlock] = useState('block')
     let [flex, setFlex] = useState('flex')
+
+    let [filter,setFilter] = useState()
+    useEffect(() => {
+        axios.get('http://localhost:8000/list-confirm')
+            .then(res => {
+                console.log(res);
+                const DBfilter = res.data.filter((data) => {
+                    return data.title === moment(value).format("YYYY년 MM월 DD일")
+                })
+                setFilter(DBfilter)
+                console.log(filter);
+            })
+            .catch(() => {
+                console.log("실패");
+            });
+    }, [none])
+
+    function list_confirm () {
+        
+    }
+
+    // function list_add() {
+    //     axios.post('http://localhost:8000/todolist', {
+    //         title: moment(value).format("YYYY년 MM월 DD일"),
+    //         name: val
+    //     })
+    //         .then(function (res) {
+    //             console.log(res);
+    //         })
+    //         .catch(() => {
+    //             console.log("실패");
+    //         });
+    // }
 
     return (
         <>
@@ -37,25 +71,26 @@ function Todo() {
 
                         <div className={cs("add")}>
 
-                            <div className={cs("add-input",`${none}`)}>
+                            <div className={cs("add-input", `${none}`)}>
                                 <input id="add-input" type='text' />
-                                <button onClick={()=> {
+                                <button onClick={() => {
                                     let val = document.getElementById('add-input').value
                                     if (val == '') {
                                         Swal.fire('일정을 입력 해주세요.')
-                                    } else if ( val != '') {
+                                    } else if (val != '') {
                                         Swal.fire('일정이 추가 되었습니다.')
+
                                         setBlock('block')
                                         setNone('none')
                                     }
                                 }}>생성</button>
                             </div>
 
-                            <button className={cs("add-btn",`${block}`)} onClick={()=> {
+                            <button className={cs("add-btn", `${block}`)} onClick={() => {
                                 setBlock('none')
                                 setNone('block')
                             }}><i class="fa-solid fa-plus"></i></button>
-                            <button className={cs("close-btn",`${none}`)} onClick={()=> {
+                            <button className={cs("close-btn", `${none}`)} onClick={() => {
                                 setBlock('block')
                                 setNone('none')
                             }}><i class="fa-solid fa-xmark"></i></button>
