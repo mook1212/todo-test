@@ -19,6 +19,7 @@ function Todo() {
     let [block, setBlock] = useState('block')
     let [flex, setFlex] = useState('flex')
     let [textbox, setTextbox] = useState('none')
+    let [listmemo, setListmemo] = useState(false)
 
 
 
@@ -56,6 +57,7 @@ function Todo() {
             });
     }, [moment(value).format("YYYY년 MM월 DD일"), block])
 
+    console.log(filter);
 
 
 
@@ -93,8 +95,8 @@ function Todo() {
                                     // <h1>안빔</h1>
                                     filter.map((a, i) => {
                                         let list_name = filter[i].name
+                                        let id = filter[i]._id
                                         let text_id = 'list-text' + i
-                                        console.log(list_name);
 
                                         return (
                                             <>
@@ -104,17 +106,21 @@ function Todo() {
                                                     <div className={cs("list-icon")}>
                                                         <i class="fa-solid fa-pen" onClick={() => {
                                                             document.querySelector(`.text-container${i}`).style.display = 'block'
-                                                            document.getElementById(text_id).value = '안녕하세요'
                                                         }}></i>
                                                         <i class="fa-solid fa-trash"></i>
                                                     </div>
                                                 </div>
 
-                                                <div className={cs(`text-container${i}`,'none')}>
+                                                <div className={cs(`text-container${i}`, 'none')}>
                                                     <div className={cs('text-box')}>
                                                         {/* <input id={text_id} className={cs('list-text')} type='textarea'></input> */}
-                                                        <textarea id={text_id} className={cs('list-text')}></textarea>
+                                                        <textarea id={text_id} className={cs('list-text')} placeholder='내용을 입력 해주세요.'></textarea>
                                                         <button onClick={() => {
+                                                            let memo = document.getElementById(text_id).value
+                                                            axios.put('http://localhost:8000/list-update', {
+                                                                id : id,
+                                                                memo : memo
+                                                            })
                                                             document.querySelector(`.text-container${i}`).style.display = 'none'
                                                         }}>확인</button>
                                                     </div>
