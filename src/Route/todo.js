@@ -22,6 +22,17 @@ function Todo() {
     let [listmemo, setListmemo] = useState(false)
     let [memoData, setMemoData] = useState('')
 
+    let [re, setRe] = useState(false)
+    function Re() {
+        // setTimeout(() => {
+        if (re = false) {
+            setRe(true)
+        } else if (re != false) {
+            setRe(false)
+        }
+        // }, 1);
+    }
+
 
 
     let [filter, setFilter] = useState([]) // 현재 날짜와 맞는 데이터
@@ -56,7 +67,7 @@ function Todo() {
             .catch(() => {
                 console.log("실패");
             });
-    }, [moment(value).format("YYYY년 MM월 DD일"), block])
+    }, [moment(value).format("YYYY년 MM월 DD일"), block, Re()])
 
     console.log(filter);
 
@@ -93,7 +104,6 @@ function Todo() {
                             {
                                 filter != ''
                                     ?
-                                    // <h1>안빔</h1>
                                     filter.map((a, i) => {
                                         let list_name = filter[i].name
                                         let id = filter[i]._id
@@ -103,11 +113,6 @@ function Todo() {
                                             <>
                                                 <div className={cs("main-list")}>
                                                     <p data-id={id} onClick={(e) => {
-                                                        // const data_id = filter.filter((data) => {
-                                                        //     return console.log(data._id);
-                                                        // })
-                                                        // console.log(filter);
-                                                        // console.log(a);
                                                         setMemoData(a)
                                                     }}>{i + 1}. {list_name}</p>
 
@@ -117,8 +122,17 @@ function Todo() {
                                                         }}></i>
                                                         <i class="fa-solid fa-trash" onClick={() => {
                                                             axios.delete('http://localhost:8000/list-delete', {
-                                                                data: { _id : id }
+                                                                data: { _id: id }
                                                             })
+                                                                .then(function (res) {
+                                                                    Re()
+                                                                })
+                                                                .catch(() => {
+                                                                    console.log("실패");
+                                                                });
+
+                                                            // Re()
+
                                                             // 추가해야함
                                                         }}></i>
                                                     </div>
@@ -136,10 +150,12 @@ function Todo() {
                                                             })
                                                                 .then(function (res) {
                                                                     console.log(res);
+                                                                    setBlock('block')
+
                                                                 })
-                                                                .catch(() => {
-                                                                    console.log("실패");
-                                                                });
+                                                            // .catch(() => {
+                                                            //     console.log("실패");
+                                                            // });
                                                             document.querySelector(`.text-container${i}`).style.display = 'none'
                                                         }}>확인</button>
                                                     </div>
@@ -162,20 +178,22 @@ function Todo() {
                                     } else if (val != '') {
                                         // if (filter.length == 0) {
                                         // }
+
                                         axios.post('http://localhost:8000/todolist', {
                                             title: moment(value).format("YYYY년 MM월 DD일"),
                                             name: val
                                         })
                                             .then(function (res) {
                                                 console.log(res);
+
+                                                setBlock('block')
+                                                setNone('none')
                                             })
                                             .catch(() => {
                                                 console.log("실패");
                                             });
                                         Swal.fire('일정이 추가 되었습니다.')
 
-                                        setBlock('block')
-                                        setNone('none')
                                     }
                                 }}>생성</button>
                             </div>
