@@ -115,7 +115,12 @@ function Todo() {
                                                         <i class="fa-solid fa-pen" onClick={() => {
                                                             document.querySelector(`.text-container${i}`).style.display = 'block'
                                                         }}></i>
-                                                        <i class="fa-solid fa-trash"></i>
+                                                        <i class="fa-solid fa-trash" onClick={() => {
+                                                            axios.delete('http://localhost:8000/list-delete', {
+                                                                data: { _id : id }
+                                                            })
+                                                            // 추가해야함
+                                                        }}></i>
                                                     </div>
                                                 </div>
 
@@ -214,6 +219,7 @@ function Todo() {
                                     <h1>{memoData.title}</h1>
                                     <div className={cs("memo-list")}>
                                         <p>{memoData.name}</p>
+                                        <p>{memoData.memo}</p>
                                     </div>
 
                                 </div>

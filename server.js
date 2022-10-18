@@ -53,3 +53,14 @@ app.put('/list-update', (req, res) => {
     })
     console.log('수정완료');
 })
+
+
+// DB정보 삭제
+app.delete('/list-delete', (req, res) => {
+    console.log(req.body);
+	// req.body._id = parseInt(req.body._id)
+	db.collection('todolist').deleteOne(req.body, (에러, 결과) => {
+		console.log('삭제완료');
+		res.status(200).send({ message: '성공했음' });
+	})
+})
