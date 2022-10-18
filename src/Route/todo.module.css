@@ -189,6 +189,12 @@ body {
     margin-top: 20px;
 }
 
+.memo-list {
+    text-align: left;
+    border-bottom: 1px solid grey;
+}
+
+
 .highlight {
     background: red;
     color: red;

@@ -20,6 +20,7 @@ function Todo() {
     let [flex, setFlex] = useState('flex')
     let [textbox, setTextbox] = useState('none')
     let [listmemo, setListmemo] = useState(false)
+    let [memoData, setMemoData] = useState('')
 
 
 
@@ -101,7 +102,14 @@ function Todo() {
                                         return (
                                             <>
                                                 <div className={cs("main-list")}>
-                                                    <p>{i + 1}. {list_name}</p>
+                                                    <p data-id={id} onClick={(e) => {
+                                                        // const data_id = filter.filter((data) => {
+                                                        //     return console.log(data._id);
+                                                        // })
+                                                        // console.log(filter);
+                                                        // console.log(a);
+                                                        setMemoData(a)
+                                                    }}>{i + 1}. {list_name}</p>
 
                                                     <div className={cs("list-icon")}>
                                                         <i class="fa-solid fa-pen" onClick={() => {
@@ -115,7 +123,7 @@ function Todo() {
                                                     <div className={cs('text-box')}>
                                                         {/* <input id={text_id} className={cs('list-text')} type='textarea'></input> */}
                                                         <textarea id={text_id} className={cs('list-text')} placeholder='내용을 입력 해주세요.'></textarea>
-                                                        <button onClick={() => {
+                                                        <button onClick={(e) => {
                                                             let memo = document.getElementById(text_id).value
                                                             axios.put('http://localhost:8000/list-update', {
                                                                 id: id,
@@ -199,9 +207,19 @@ function Todo() {
                     </div>
 
                     <div className={cs("memo")}>
-                        <div className={cs("none-memo")}>
-                            <h1>현재 선택된 항목이 없습니다.</h1>
-                        </div>
+                        {
+                            memoData != ''
+                                ?
+                                <div className={cs("none-memo")}>
+                                    <h1>{memoData.title}</h1>
+                                    <div className={cs("memo-list")}>
+                                        <p>{memoData.name}</p>
+                                    </div>
+
+                                </div>
+                                : <h1 style={{ textAlign: "center", marginTop: "20px" }}>현재 선택된 항목이 없습니다.</h1>
+                        }
+
                     </div>
 
                 </div>
