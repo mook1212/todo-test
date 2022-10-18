@@ -27,7 +27,7 @@ app.get('/list-confirm', (req, res) => {
     db.collection('todolist').find().toArray((에러, 결과) => {
         res.send(결과)
     })
-    console.log('장바구니 조회 완료');
+    console.log('DB조회 완료');
 })
 
 // DB에 일정 추가
@@ -36,22 +36,20 @@ app.post('/todolist', (req, res) => {
         let count = 결과.totalpost // DB의 총 게시물갯수 가져오기
 
         db.collection('todolist').insertOne({ _id: count + 1, title: req.body.title, name: req.body.name }, function (에러, 결과) {
-            console.log('저장완료');
+            console.log('일정 저장완료');
+            db.collection('counter').updateOne({ name: '게시물갯수' }, { $inc: { totalpost: 1 } }, (에러, 결과) => {
+                res.status(200).send({ message: '성공했음' });
+            })
         })
-        res.send('전송완료')
-        console.log(req.body);
-
-        db.collection('counter').updateOne({ name : '게시물갯수' }, { $set: { totalpost : count+1 } }, (에러, 결과) => {
-            res.status(200).send({ message: '성공했음' });
-        })
+        
     })
 })
 
 // DB정보 수정,추가
 app.put('/list-update', (req, res) => {
     console.log(req.body);
-    db.collection('todolist').updateOne({ _id: req.body.id }, { $set: { memo : req.body.memo } }, (에러, 결과) => {
-        res.status(200).send({ message: '성공했음' });
+    db.collection('todolist').updateOne({ _id: req.body.id }, { $set: { memo: req.body.memo } }, (에러, 결과) => {
+        res.status(200).send({ message: '수정 성공했음' });
     })
     console.log('수정완료');
 })

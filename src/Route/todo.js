@@ -118,9 +118,15 @@ function Todo() {
                                                         <button onClick={() => {
                                                             let memo = document.getElementById(text_id).value
                                                             axios.put('http://localhost:8000/list-update', {
-                                                                id : id,
-                                                                memo : memo
+                                                                id: id,
+                                                                memo: memo
                                                             })
+                                                                .then(function (res) {
+                                                                    console.log(res);
+                                                                })
+                                                                .catch(() => {
+                                                                    console.log("실패");
+                                                                });
                                                             document.querySelector(`.text-container${i}`).style.display = 'none'
                                                         }}>확인</button>
                                                     </div>
@@ -141,10 +147,19 @@ function Todo() {
                                     if (val == '') {
                                         Swal.fire('일정을 입력 해주세요.')
                                     } else if (val != '') {
-                                        Swal.fire('일정이 추가 되었습니다.')
                                         // if (filter.length == 0) {
                                         // }
-                                        list_add()
+                                        axios.post('http://localhost:8000/todolist', {
+                                            title: moment(value).format("YYYY년 MM월 DD일"),
+                                            name: val
+                                        })
+                                            .then(function (res) {
+                                                console.log(res);
+                                            })
+                                            .catch(() => {
+                                                console.log("실패");
+                                            });
+                                        Swal.fire('일정이 추가 되었습니다.')
 
                                         setBlock('block')
                                         setNone('none')
