@@ -229,13 +229,10 @@ i {
     font-size: 25px;
     font-weight: bold;
     margin-bottom: 15px;
+    padding-bottom: 5px;
 }
 
 
-.highlight {
-    background: red;
-    color: red;
-}
 
 .mark {
     display: flex;

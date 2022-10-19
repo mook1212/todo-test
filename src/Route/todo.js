@@ -17,10 +17,8 @@ function Todo() {
 
     let [none, setNone] = useState('none')
     let [block, setBlock] = useState('block')
-    let [flex, setFlex] = useState('flex')
-    let [textbox, setTextbox] = useState('none')
-    let [listmemo, setListmemo] = useState('none')
-    let [memoData, setMemoData] = useState([])
+
+    let [memoData, setMemoData] = useState([]) // 일정
 
     let [re, setRe] = useState(1)
 
@@ -28,8 +26,6 @@ function Todo() {
 
 
     let [filter, setFilter] = useState([]) // 현재 날짜와 맞는 데이터
-
-    let [list, setList] = useState() // 현재 날짜와 맞는 name 데이터
 
     let [DBdate, setDBDate] = useState([]) // DB에 있는 모든 title 데이터 
 
@@ -47,11 +43,7 @@ function Todo() {
                 })
                 let list = DBfilter.map(a => a.name)
                 setFilter(DBfilter)
-                setList(list)
-                // console.log(DBfilter);
-                // console.log(list);
 
-                // 모든 title 데이터 조회
                 let day = res.data.map(a => a.title);
                 setDBDate(day)
             })
@@ -61,7 +53,7 @@ function Todo() {
             });
     }, [moment(value).format("YYYY년 MM월 DD일"), block, re])
 
-    console.log(filter);
+    // console.log(filter);
 
 
     function list_add() {
@@ -81,9 +73,9 @@ function Todo() {
             });
     }
 
-    useEffect(() => {
-        setMemoData([])
-    }, filter)
+    // useEffect(() => {
+    //     setMemoData([])
+    // }, list)
 
 
     return (
@@ -130,6 +122,7 @@ function Todo() {
 
                                                         {/* 휴지통  */}
                                                         <i class="fa-solid fa-trash" onClick={() => {
+                                                            // async () => {
                                                             axios.delete('http://localhost:8000/list-delete', {
                                                                 data: { _id: id }
                                                             })
@@ -139,43 +132,20 @@ function Todo() {
                                                                 .catch(() => {
                                                                     console.log("실패");
                                                                 });
+                                                            // setMemoData(a)
+                                                            // console.log(a);
+                                                            // console.log(filter);
+                                                            // console.log(memoData);
+
+
+                                                            // }
+
                                                         }}></i>
                                                     </div>
                                                 </div>
 
 
                                                 {/* 일정 텍스트 */}
-
-                                                {/* <div className={cs('cc',`text-container${i}`, 'none')}>
-                                                    <div className={cs('text-box')}>
-                                    
-                                                        <textarea id={text_id} className={cs('list-text')} placeholder='내용을 입력 해주세요.'></textarea>
-
-                                                        <div className={cs("text-btn")}>
-                                                        <button onClick={(e) => {
-                                                            let memo = document.getElementById(text_id).value
-                                                            axios.put('http://localhost:8000/list-update', {
-                                                                id: id,
-                                                                memo: memo
-                                                            })
-                                                                .then(function (res) {
-                                                                    console.log(res);
-                                                                    setRe(re + 1)
-
-                                                                })
-                                                                .catch(() => {
-                                                                    console.log("실패");
-                                                                });
-                                                            document.querySelector(`.text-container${i}`).style.display = 'none'
-                                                        }}>확인</button>
-                                                        <button onClick={()=> {
-                                                            console.log(document.querySelector(`.text-container${i}`).className);
-                                                            document.querySelector(`.text-container${i}`).style.display = 'none'
-                                                        }}>취소</button>
-                                                        </div>
-                                                    </div>
-                                                </div> */}
-                                                {/* <input type='text'></input> */}
 
                                                 <div className={cs(`text-container${i}`, 'text-container')}>
                                                     <div className={cs("text-modal")}>
@@ -195,11 +165,16 @@ function Todo() {
                                                                     .then(function (res) {
                                                                         console.log(res);
                                                                         setRe(re + 1)
+                                                                        // setMemoData(a)
 
                                                                     })
                                                                     .catch(() => {
                                                                         console.log("실패");
                                                                     });
+                                                                console.log(a);
+                                                                console.log(filter);
+                                                                console.log(memoData);
+
                                                                 document.querySelector(`.text-container${i}`).style.display = 'none'
                                                             }}>확인</button>
                                                             <button onClick={() => {
@@ -256,7 +231,7 @@ function Todo() {
                     {/* 달력 */}
 
                     <div className={cs("todo-calendar")}>
-                        <Calendar className={cs('calendar')} onChange={onChange} value={value}
+                        <Calendar className={cs('calendar')} onClickDay={() => { setMemoData([]) }} onChange={onChange} value={value}
                             tileContent={({ date, view }) => {
                                 if (DBdate.find((x) => x === moment(date).format("YYYY년 MM월 DD일"))) {
                                     return (
@@ -281,19 +256,19 @@ function Todo() {
                                     <div className={cs("memo-list")}>
                                         <p>{memoData.name}<br /></p>
                                         {
-                                        // memoData.memo != 
-                                        memoData.memo != undefined
-                                        ?
-                                        memoData.memo.split('\n').map((line) => {
-                                            return (
-                                                <span>
-                                                    {line}
-                                                    <br />
-                                                </span>
-                                            )
-                                        })
-                                        : null
-                                    } 
+                                            // memoData.memo != 
+                                            memoData.memo != undefined
+                                                ?
+                                                memoData.memo.split('\n').map((line) => {
+                                                    return (
+                                                        <span>
+                                                            {line}
+                                                            <br />
+                                                        </span>
+                                                    )
+                                                })
+                                                : null
+                                        }
                                     </div>
 
                                 </div>
