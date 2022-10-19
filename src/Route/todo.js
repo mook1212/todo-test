@@ -22,16 +22,8 @@ function Todo() {
     let [listmemo, setListmemo] = useState(false)
     let [memoData, setMemoData] = useState('')
 
-    let [re, setRe] = useState(false)
-    function Re() {
-        // setTimeout(() => {
-        if (re = false) {
-            setRe(true)
-        } else if (re != false) {
-            setRe(false)
-        }
-        // }, 1);
-    }
+    let [re, setRe] = useState(1)
+
 
 
 
@@ -67,25 +59,28 @@ function Todo() {
             .catch(() => {
                 console.log("실패");
             });
-    }, [moment(value).format("YYYY년 MM월 DD일"), block, Re()])
+    }, [moment(value).format("YYYY년 MM월 DD일"), block, re])
 
     console.log(filter);
 
 
-
     function list_add() {
         let val = document.getElementById('add-input').value
+        let id = filter.map(a => a.name)
         axios.post('http://localhost:8000/todolist', {
             title: moment(value).format("YYYY년 MM월 DD일"),
             name: val
         })
             .then(function (res) {
                 console.log(res);
+                setBlock('block')
+                setNone('none')
             })
             .catch(() => {
                 console.log("실패");
             });
     }
+
 
     return (
         <>
@@ -125,7 +120,7 @@ function Todo() {
                                                                 data: { _id: id }
                                                             })
                                                                 .then(function (res) {
-                                                                    Re()
+                                                                    setRe(re + 1)
                                                                 })
                                                                 .catch(() => {
                                                                     console.log("실패");
@@ -137,6 +132,9 @@ function Todo() {
                                                         }}></i>
                                                     </div>
                                                 </div>
+
+
+                                                {/* 일정 텍스트 */}
 
                                                 <div className={cs(`text-container${i}`, 'none')}>
                                                     <div className={cs('text-box')}>
@@ -150,12 +148,12 @@ function Todo() {
                                                             })
                                                                 .then(function (res) {
                                                                     console.log(res);
-                                                                    setBlock('block')
+                                                                    setRe(re + 1)
 
                                                                 })
-                                                            // .catch(() => {
-                                                            //     console.log("실패");
-                                                            // });
+                                                                .catch(() => {
+                                                                    console.log("실패");
+                                                                });
                                                             document.querySelector(`.text-container${i}`).style.display = 'none'
                                                         }}>확인</button>
                                                     </div>
@@ -167,6 +165,9 @@ function Todo() {
                             }
                         </div>
 
+
+                        {/* 일정 추가 */}
+
                         <div className={cs("add")}>
 
                             <div className={cs("add-input", `${none}`)}>
@@ -176,22 +177,7 @@ function Todo() {
                                     if (val == '') {
                                         Swal.fire('일정을 입력 해주세요.')
                                     } else if (val != '') {
-                                        // if (filter.length == 0) {
-                                        // }
-
-                                        axios.post('http://localhost:8000/todolist', {
-                                            title: moment(value).format("YYYY년 MM월 DD일"),
-                                            name: val
-                                        })
-                                            .then(function (res) {
-                                                console.log(res);
-
-                                                setBlock('block')
-                                                setNone('none')
-                                            })
-                                            .catch(() => {
-                                                console.log("실패");
-                                            });
+                                        list_add()
                                         Swal.fire('일정이 추가 되었습니다.')
 
                                     }
@@ -214,6 +200,9 @@ function Todo() {
 
 
                 <div className={cs("container2")}>
+
+                    {/* 달력 */}
+
                     <div className={cs("todo-calendar")}>
                         <Calendar className={cs('calendar')} onChange={onChange} value={value}
                             tileContent={({ date, view }) => {
@@ -228,6 +217,8 @@ function Todo() {
                                 }
                             }} />
                     </div>
+
+                    {/* 일정 메모 */}
 
                     <div className={cs("memo")}>
                         {
