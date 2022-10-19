@@ -112,9 +112,15 @@ function Todo() {
                                                     }}>{i + 1}. {list_name}</p>
 
                                                     <div className={cs("list-icon")}>
-                                                        <i class="fa-solid fa-pen" onClick={() => {
+                                                        <i class="fa-solid fa-pen" onClick={(e) => {
+                                                            // document.querySelectorAll('.cc')(i).style.display = 'none'
                                                             document.querySelector(`.text-container${i}`).style.display = 'block'
+                                                            // document.querySelector(`.text-container${i}`).className += 'block'
+                                                            let classname = document.querySelector(`.text-container${i}`).className
+                                                            console.log(classname);
                                                         }}></i>
+
+                                                        {/* 휴지통  */}
                                                         <i class="fa-solid fa-trash" onClick={() => {
                                                             axios.delete('http://localhost:8000/list-delete', {
                                                                 data: { _id: id }
@@ -125,10 +131,6 @@ function Todo() {
                                                                 .catch(() => {
                                                                     console.log("실패");
                                                                 });
-
-                                                            // Re()
-
-                                                            // 추가해야함
                                                         }}></i>
                                                     </div>
                                                 </div>
@@ -136,10 +138,12 @@ function Todo() {
 
                                                 {/* 일정 텍스트 */}
 
-                                                <div className={cs(`text-container${i}`, 'none')}>
+                                                <div className={cs('cc',`text-container${i}`, 'none')}>
                                                     <div className={cs('text-box')}>
-                                                        {/* <input id={text_id} className={cs('list-text')} type='textarea'></input> */}
+                                    
                                                         <textarea id={text_id} className={cs('list-text')} placeholder='내용을 입력 해주세요.'></textarea>
+
+                                                        <div className={cs("text-btn")}>
                                                         <button onClick={(e) => {
                                                             let memo = document.getElementById(text_id).value
                                                             axios.put('http://localhost:8000/list-update', {
@@ -156,8 +160,44 @@ function Todo() {
                                                                 });
                                                             document.querySelector(`.text-container${i}`).style.display = 'none'
                                                         }}>확인</button>
+                                                        <button onClick={()=> {
+                                                            console.log(document.querySelector(`.text-container${i}`).className);
+                                                            document.querySelector(`.text-container${i}`).style.display = 'none'
+                                                        }}>취소</button>
+                                                        </div>
                                                     </div>
                                                 </div>
+
+                                                {/* <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                    data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+
+                                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form>
+                                                                    <div class="mb-3">
+                                                                        <label for="recipient-name" class="col-form-label">Recipient:</label>
+                                                                        <input type="text" class="form-control" id="recipient-name" />
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="message-text" class="col-form-label">Message:</label>
+                                                                        <textarea class="form-control" id="message-text"></textarea>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-primary">Send message</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> */}
+
                                             </>
                                         )
                                     })
