@@ -19,7 +19,7 @@ function Todo() {
     let [block, setBlock] = useState('block')
     let [flex, setFlex] = useState('flex')
     let [textbox, setTextbox] = useState('none')
-    let [listmemo, setListmemo] = useState(false)
+    let [listmemo, setListmemo] = useState('none')
     let [memoData, setMemoData] = useState('')
 
     let [re, setRe] = useState(1)
@@ -48,7 +48,7 @@ function Todo() {
                 let list = DBfilter.map(a => a.name)
                 setFilter(DBfilter)
                 setList(list)
-                console.log(DBfilter);
+                // console.log(DBfilter);
                 // console.log(list);
 
                 // 모든 title 데이터 조회
@@ -61,7 +61,7 @@ function Todo() {
             });
     }, [moment(value).format("YYYY년 MM월 DD일"), block, re])
 
-    console.log(filter);
+    // console.log(filter);
 
 
     function list_add() {
@@ -102,7 +102,7 @@ function Todo() {
                                     filter.map((a, i) => {
                                         let list_name = filter[i].name
                                         let id = filter[i]._id
-                                        let text_id = 'list-text' + i
+                                        let text_input_id = 'text-input' + i
 
                                         return (
                                             <>
@@ -112,12 +112,15 @@ function Todo() {
                                                     }}>{i + 1}. {list_name}</p>
 
                                                     <div className={cs("list-icon")}>
-                                                        <i class="fa-solid fa-pen" onClick={(e) => {
-                                                            // document.querySelectorAll('.cc')(i).style.display = 'none'
-                                                            document.querySelector(`.text-container${i}`).style.display = 'block'
-                                                            // document.querySelector(`.text-container${i}`).className += 'block'
-                                                            let classname = document.querySelector(`.text-container${i}`).className
-                                                            console.log(classname);
+
+                                                        <i class="fa-solid fa-pen" onClick={() => {
+                                                            setRe(re + 1)
+                                                            setListmemo('block') // 글쓰기 모달창 띄어줌
+
+                                                            document.getElementById(text_input_id).value = list_name // 누른 리스트 이름이
+                                                            console.log(list_name);
+                                                            console.log(text_input_id);
+
                                                         }}></i>
 
                                                         {/* 휴지통  */}
@@ -138,7 +141,7 @@ function Todo() {
 
                                                 {/* 일정 텍스트 */}
 
-                                                <div className={cs('cc',`text-container${i}`, 'none')}>
+                                                {/* <div className={cs('cc',`text-container${i}`, 'none')}>
                                                     <div className={cs('text-box')}>
                                     
                                                         <textarea id={text_id} className={cs('list-text')} placeholder='내용을 입력 해주세요.'></textarea>
@@ -166,37 +169,31 @@ function Todo() {
                                                         }}>취소</button>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> */}
+                                                {/* <input type='text'></input> */}
 
-                                                {/* <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                    data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+                                                <div className={cs("text-container", `${listmemo}`)}>
+                                                    <div className={cs("text-modal")}>
+                                                        <p>{list_name}</p>
+                                                        <div className={cs("text-box")}>
+                                                            <input id={text_input_id} type='text' />
+                                                            <textarea id="message"></textarea>
+                                                        </div>
 
-                                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form>
-                                                                    <div class="mb-3">
-                                                                        <label for="recipient-name" class="col-form-label">Recipient:</label>
-                                                                        <input type="text" class="form-control" id="recipient-name" />
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="message-text" class="col-form-label">Message:</label>
-                                                                        <textarea class="form-control" id="message-text"></textarea>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                <button type="button" class="btn btn-primary">Send message</button>
-                                                            </div>
+                                                        <div className={cs("text-btn")}>
+                                                            <button onClick={() => {
+                                                                // let text_title = document.getElementById(text_input_id).value
+                                                                document.getElementById(text_input_id).value = list_name
+                                                                // console.log(text_title);
+                                                                // text_title = list_name
+                                                            }}>확인</button>
+                                                            <button onClick={() => {
+                                                                setListmemo('none')
+                                                            }}>취소</button>
                                                         </div>
                                                     </div>
-                                                </div> */}
+                                                </div>
+
 
                                             </>
                                         )
