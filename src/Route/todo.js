@@ -20,7 +20,7 @@ function Todo() {
     let [flex, setFlex] = useState('flex')
     let [textbox, setTextbox] = useState('none')
     let [listmemo, setListmemo] = useState('none')
-    let [memoData, setMemoData] = useState('')
+    let [memoData, setMemoData] = useState([])
 
     let [re, setRe] = useState(1)
 
@@ -59,7 +59,7 @@ function Todo() {
             .catch(() => {
                 console.log("실패");
             });
-    }, [moment(value).format("YYYY년 MM월 DD일"), block, re, listmemo])
+    }, [moment(value).format("YYYY년 MM월 DD일"), block, re])
 
     console.log(filter);
 
@@ -80,6 +80,10 @@ function Todo() {
                 console.log("실패");
             });
     }
+
+    useEffect(() => {
+        setMemoData([])
+    }, filter)
 
 
     return (
@@ -103,7 +107,7 @@ function Todo() {
                                         let list_name = filter[i].name
                                         let id = filter[i]._id
                                         let text_input_id = 'text-input' + i
-                                        let memobox = 'memo'+ i
+                                        let memobox = 'memo' + i
 
                                         return (
                                             <>
@@ -275,8 +279,21 @@ function Todo() {
                                 <div className={cs("none-memo")}>
                                     <h1>{memoData.title}</h1>
                                     <div className={cs("memo-list")}>
-                                        <p>{memoData.name}</p>
-                                        <p>{memoData.memo}</p>
+                                        <p>{memoData.name}<br /></p>
+                                        {
+                                        // memoData.memo != 
+                                        memoData.memo != undefined
+                                        ?
+                                        memoData.memo.split('\n').map((line) => {
+                                            return (
+                                                <span>
+                                                    {line}
+                                                    <br />
+                                                </span>
+                                            )
+                                        })
+                                        : null
+                                    } 
                                     </div>
 
                                 </div>
