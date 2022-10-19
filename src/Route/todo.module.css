@@ -251,6 +251,7 @@ i {
 
 .text-container {
     position: fixed;
+    display: none;
     top: 0;
     left: 0;
 

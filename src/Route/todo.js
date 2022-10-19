@@ -59,9 +59,9 @@ function Todo() {
             .catch(() => {
                 console.log("실패");
             });
-    }, [moment(value).format("YYYY년 MM월 DD일"), block, re])
+    }, [moment(value).format("YYYY년 MM월 DD일"), block, re, listmemo])
 
-    // console.log(filter);
+    console.log(filter);
 
 
     function list_add() {
@@ -103,6 +103,7 @@ function Todo() {
                                         let list_name = filter[i].name
                                         let id = filter[i]._id
                                         let text_input_id = 'text-input' + i
+                                        let memobox = 'memo'+ i
 
                                         return (
                                             <>
@@ -115,11 +116,11 @@ function Todo() {
 
                                                         <i class="fa-solid fa-pen" onClick={() => {
                                                             setRe(re + 1)
-                                                            setListmemo('block') // 글쓰기 모달창 띄어줌
+                                                            document.querySelector(`.text-container${i}`).style.display = 'block'
 
                                                             document.getElementById(text_input_id).value = list_name // 누른 리스트 이름이
                                                             console.log(list_name);
-                                                            console.log(text_input_id);
+                                                            // console.log(text_input_id);
 
                                                         }}></i>
 
@@ -172,23 +173,33 @@ function Todo() {
                                                 </div> */}
                                                 {/* <input type='text'></input> */}
 
-                                                <div className={cs("text-container", `${listmemo}`)}>
+                                                <div className={cs(`text-container${i}`, 'text-container')}>
                                                     <div className={cs("text-modal")}>
                                                         <p>{list_name}</p>
                                                         <div className={cs("text-box")}>
                                                             <input id={text_input_id} type='text' />
-                                                            <textarea id="message"></textarea>
+                                                            <textarea id={memobox} placeholder='내용을 입력 해주세요.'></textarea>
                                                         </div>
 
                                                         <div className={cs("text-btn")}>
                                                             <button onClick={() => {
-                                                                // let text_title = document.getElementById(text_input_id).value
-                                                                document.getElementById(text_input_id).value = list_name
-                                                                // console.log(text_title);
-                                                                // text_title = list_name
+                                                                let memo = document.getElementById(memobox).value
+                                                                axios.put('http://localhost:8000/list-update', {
+                                                                    id: id,
+                                                                    memo: memo
+                                                                })
+                                                                    .then(function (res) {
+                                                                        console.log(res);
+                                                                        setRe(re + 1)
+
+                                                                    })
+                                                                    .catch(() => {
+                                                                        console.log("실패");
+                                                                    });
+                                                                document.querySelector(`.text-container${i}`).style.display = 'none'
                                                             }}>확인</button>
                                                             <button onClick={() => {
-                                                                setListmemo('none')
+                                                                document.querySelector(`.text-container${i}`).style.display = 'none'
                                                             }}>취소</button>
                                                         </div>
                                                     </div>
