@@ -74,6 +74,7 @@ function Todo() {
             .catch(() => {
                 console.log("실패");
             });
+        document.getElementById('add-input').value = ''
     }
 
     // 일정 삭제
@@ -114,7 +115,7 @@ function Todo() {
                         const DBfilter = res.data.filter((data) => {
                             return data.memo === memo
                         })
-                        DBfilter.map((m)=>{setMemoData(m)})
+                        DBfilter.map((m) => { setMemoData(m) })
                     })
 
                     .catch(() => {
@@ -149,6 +150,7 @@ function Todo() {
                                     ?
                                     filter.map((a, i) => {
                                         let list_name = filter[i].name
+                                        // let text_memo
                                         let id = filter[i]._id
                                         let text_input_id = 'text-input' + i
                                         let memobox = 'memo' + i
@@ -165,8 +167,12 @@ function Todo() {
 
                                                         <i class="fa-solid fa-pen" onClick={() => {
                                                             setRe(re + 1)
+                                                            console.log(filter[i].memo);
                                                             document.querySelector(`.text-container${i}`).style.display = 'block'
                                                             document.getElementById(text_input_id).value = list_name // 누른 리스트 이름이
+                                                            if (filter[i].memo != undefined) {
+                                                                document.getElementById(memobox).value = filter[i].memo
+                                                            }
                                                             console.log(list_name);
 
                                                         }}></i>
