@@ -18,7 +18,7 @@ function Todo() {
     let [none, setNone] = useState('none')
     let [block, setBlock] = useState('block')
 
-    let [memoData, setMemoData] = useState([]) // 일정
+    let [memoData, setMemoData] = useState('') // 일정
 
     let [re, setRe] = useState(1)
 
@@ -46,16 +46,19 @@ function Todo() {
 
                 let day = res.data.map(a => a.title);
                 setDBDate(day)
+
             })
 
             .catch(() => {
                 console.log("실패");
             });
-    }, [moment(value).format("YYYY년 MM월 DD일"), block, re])
+
+    }, [moment(value).format("YYYY년 MM월 DD일"), block, re, memoData])
 
     // console.log(filter);
 
 
+    // 일정 추가
     function list_add() {
         let val = document.getElementById('add-input').value
         let id = filter.map(a => a.name)
@@ -73,9 +76,60 @@ function Todo() {
             });
     }
 
-    // useEffect(() => {
-    //     setMemoData([])
-    // }, list)
+    // 일정 삭제
+    function list_delete(i) {
+        let id = filter[i]._id
+        axios.delete('http://localhost:8000/list-delete', {
+            data: { _id: id }
+        })
+            .then(function (res) {
+                setRe(re + 1)
+                setMemoData('')
+            })
+            .catch(() => {
+                console.log("실패");
+            });
+    }
+
+
+    // 선택한 일정 내역추가
+    function list_memo(a, i) {
+        let id = filter[i]._id
+        let memobox = 'memo' + i
+        let memo = document.getElementById(memobox).value
+
+        axios.put('http://localhost:8000/list-update', {
+            id: id,
+            memo: memo
+        })
+            .then(function (res) {
+                console.log(res);
+                setRe(re + 1)
+                axios.get('http://localhost:8000/list-confirm')
+
+                    .then(res => {
+
+                        // 현재 날짜와 맞는 title 데이터 조회
+                        const DBfilter = res.data.filter((data) => {
+                            return data.title === moment(value).format("YYYY년 MM월 DD일")
+                        })
+                        DBfilter.map((a) => { setMemoData(a) })
+
+
+                    })
+
+                    .catch(() => {
+                        console.log("실패");
+                    });
+
+
+            })
+            .catch(() => {
+                console.log("실패");
+            });
+
+        document.querySelector(`.text-container${i}`).style.display = 'none'
+    }
 
 
     return (
@@ -113,33 +167,14 @@ function Todo() {
                                                         <i class="fa-solid fa-pen" onClick={() => {
                                                             setRe(re + 1)
                                                             document.querySelector(`.text-container${i}`).style.display = 'block'
-
                                                             document.getElementById(text_input_id).value = list_name // 누른 리스트 이름이
                                                             console.log(list_name);
-                                                            // console.log(text_input_id);
 
                                                         }}></i>
 
                                                         {/* 휴지통  */}
                                                         <i class="fa-solid fa-trash" onClick={() => {
-                                                            // async () => {
-                                                            axios.delete('http://localhost:8000/list-delete', {
-                                                                data: { _id: id }
-                                                            })
-                                                                .then(function (res) {
-                                                                    setRe(re + 1)
-                                                                })
-                                                                .catch(() => {
-                                                                    console.log("실패");
-                                                                });
-                                                            // setMemoData(a)
-                                                            // console.log(a);
-                                                            // console.log(filter);
-                                                            // console.log(memoData);
-
-
-                                                            // }
-
+                                                            list_delete(i)
                                                         }}></i>
                                                     </div>
                                                 </div>
@@ -157,26 +192,9 @@ function Todo() {
 
                                                         <div className={cs("text-btn")}>
                                                             <button onClick={() => {
-                                                                let memo = document.getElementById(memobox).value
-                                                                axios.put('http://localhost:8000/list-update', {
-                                                                    id: id,
-                                                                    memo: memo
-                                                                })
-                                                                    .then(function (res) {
-                                                                        console.log(res);
-                                                                        setRe(re + 1)
-                                                                        // setMemoData(a)
-
-                                                                    })
-                                                                    .catch(() => {
-                                                                        console.log("실패");
-                                                                    });
-                                                                console.log(a);
-                                                                console.log(filter);
-                                                                console.log(memoData);
-
-                                                                document.querySelector(`.text-container${i}`).style.display = 'none'
+                                                                list_memo(a, i)
                                                             }}>확인</button>
+
                                                             <button onClick={() => {
                                                                 document.querySelector(`.text-container${i}`).style.display = 'none'
                                                             }}>취소</button>
@@ -273,6 +291,39 @@ function Todo() {
 
                                 </div>
                                 : <h1 style={{ textAlign: "center", marginTop: "20px" }}>현재 선택된 항목이 없습니다.</h1>
+                            // memoData != ''
+                            //     ?
+                            //     filter.map((a, i) => {
+                            //         console.log(filter);
+                            //         console.log(a);
+                            //         console.log(memoData);
+                            //         return (
+                            //             <>
+                            //                 <div className={cs("none-memo")}>
+                            //                     <h1>{memoData.title}</h1>
+                            //                     <div className={cs("memo-list")}>
+                            //                         <p>{memoData.name}<br /></p>
+                            //                         {
+                            //                             // memoData.memo != 
+                            //                             memoData.memo != undefined
+                            //                                 ?
+                            //                                 memoData.memo.split('\n').map((line) => {
+                            //                                     return (
+                            //                                         <span>
+                            //                                             {line}
+                            //                                             <br />
+                            //                                         </span>
+                            //                                     )
+                            //                                 })
+                            //                                 : null
+                            //                         }
+                            //                     </div>
+
+                            //                 </div>
+                            //             </>
+                            //         )
+                            //     })
+                            //     : <h1 style={{ textAlign: "center", marginTop: "20px" }}>현재 선택된 항목이 없습니다.</h1>
                         }
 
                     </div>
