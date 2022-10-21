@@ -3,3 +3,154 @@
     flex-direction: column;
     width: 300px;
 }
+
+.login-container {
+    position: fixed;
+    /* display: none; */
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    animation: fadeInDown 1s;
+
+    /* transform: translateY(-100%); */
+
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+.login-modal {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 40%;
+    left: 50%;
+
+    width: 450px;
+    height: 300px;
+
+    /* text-align: center; */
+    /* color: white; */
+
+    background-color: white;
+    /* box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15); */
+    /* box-shadow: 2px 2px 2px 2px grey; */
+
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.login-modal h1 {
+    text-align: center;
+    width: 100%;
+    padding-top: 10px;
+    height: 60px;
+    background-color: rgba(0, 0, 255, 0.61);
+}
+
+.login-modal input {
+    width: 300px;
+    height: 35px;
+    margin-top: 30px;
+    margin-left: 6px;
+}
+
+.login-modal i {
+    font-size: 20px;
+}
+
+.sign {
+    margin: 20px 0px;
+    margin-left: 15px;
+}
+
+.sign button {
+    width: 130px;
+    height: 40px;
+    margin: 10px;
+    background-color: rgba(0, 0, 255, 0.61);
+    border: none;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.signup-container {
+    position: fixed;
+    /* display: none; */
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    z-index: 11;
+    animation: fadeInDown 1s;
+    display: none;
+
+    /* transform: translateY(-100%); */
+
+}
+
+.flex {
+    display: flex;
+    margin-top: 30px;
+}
+
+.signup-modal {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    top: 40%;
+    left: 50%;
+
+    width: 480px;
+    height: 450px;
+
+    /* text-align: center; */
+    /* color: white; */
+
+    background-color: white;
+    /* box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15); */
+    /* box-shadow: 2px 2px 2px 2px grey; */
+
+    transform: translateX(-50%) translateY(-40%);
+}
+
+.sign-header {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    padding-top: 10px;
+    height: 80px;
+    background-color: rgba(0, 0, 255, 0.61);
+}
+
+.sign-header i {
+    margin-left: auto;
+    margin-right: 20px;
+    font-size: 24px;
+}
+
+.signup-modal p {
+    margin-left: 20px;
+    width: 30%;
+}
+
+.sign-up {
+    text-align: center;
+}
+
+.sign-up-btn {
+    width: 60%;
+    height: 40px;
+    margin-left: 20%;
+    margin-top: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: rgba(0, 0, 255, 0.61);
+    border: none;
+
+}
