@@ -15,7 +15,13 @@ function Main() {
                 <button onClick={ ()=> {
                     navigate('/todo')
                 }}>시작하기</button>
+
+                <button onClick={ ()=> {
+                    navigate('/login')
+                }}>로그인</button>
+
             </div>
+
         </div>
     )
 }

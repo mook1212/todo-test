@@ -3,6 +3,7 @@ import { createContext, useState } from "react"
 import { Route, Routes, Link, useNavigate, Outlet } from 'react-router-dom'
 import Main from './Route/main.js'
 import Todo from './Route/todo.js'
+import Login from './Route/login.js'
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path='/' element={<Main></Main>} />
 
         <Route path='/todo' element={<Todo></Todo>} />
+        <Route path='/login' element={<Login></Login>} />
 
       </Routes>
 
