@@ -11,15 +11,6 @@ app.use(cors());
 
 const MongoClient = require('mongodb').MongoClient;
 
-// Session 방식 로그인
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const session = require('express-session');
-
-app.use(session({secret : '비밀코드', resave : true, saveUninitialized: false}));
-app.use(passport.initialize());
-app.use(passport.session()); 
-
 
 var db;
 
@@ -32,6 +23,7 @@ MongoClient.connect('mongodb+srv://skdo223:apsode1@cluster0.udjmfja.mongodb.net/
     });
 });
 
+
 // DB에 일정 조회
 app.get('/list-confirm', (req, res) => {
     db.collection('todolist').find().toArray((에러, 결과) => {
@@ -42,6 +34,7 @@ app.get('/list-confirm', (req, res) => {
 
 // DB에 일정 추가
 app.post('/todolist', (req, res) => {
+
     db.collection('counter').findOne({ name: '게시물갯수' }, function (에러, 결과) {
         let count = 결과.totalpost // DB의 총 게시물갯수 가져오기
 
@@ -51,7 +44,7 @@ app.post('/todolist', (req, res) => {
                 res.status(200).send({ message: '성공했음' });
             })
         })
-        
+
     })
 })
 
@@ -68,9 +61,42 @@ app.put('/list-update', (req, res) => {
 // DB정보 삭제
 app.delete('/list-delete', (req, res) => {
     console.log(req.body);
-	// req.body._id = parseInt(req.body._id)
-	db.collection('todolist').deleteOne(req.body, (에러, 결과) => {
-		console.log('삭제완료');
-		res.status(200).send({ message: '성공했음' });
-	})
+    // req.body._id = parseInt(req.body._id)
+    db.collection('todolist').deleteOne(req.body, (에러, 결과) => {
+        console.log('삭제완료');
+        res.status(200).send({ message: '성공했음' });
+    })
 })
+
+
+// Session 방식 로그인
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+
+app.use(session({ secret: '비밀코드', resave: true, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+// 아이디 중복 확인
+app.post('/double-check', (req, res) => {
+    db.collection('sign').findOne({id : req.body.id}, (에러,결과)=> {
+        if(결과 == null) {
+            res.send(true)
+        } else {
+            res.send(false)
+        }
+    })
+})
+
+
+// 회원가입
+app.post('/sign-up', (req, res) => {
+
+    db.collection('sign').insertOne({ id: req.body.id , pw: req.body.pw }, function (에러, 결과) {
+        console.log('회원가입 완료');
+    })
+
+})
+

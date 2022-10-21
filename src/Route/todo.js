@@ -67,7 +67,7 @@ function Todo() {
             name: val
         })
             .then(function (res) {
-                console.log(res);
+                console.log(res.data);
                 setBlock('block')
                 setNone('none')
             })

@@ -9,14 +9,46 @@ import '../App.css'
 const cs = classNames.bind(style);
 
 function Login() {
+
+    let {id_check,setID_check} = useState('')
+
+    function sign_up() {
+        let id = document.getElementById('sign-up-id').value
+        let pw = document.getElementById('sign-up-pw').value
+        axios.post('http://localhost:8000/sign-up', {
+            id : id ,
+            pw : pw 
+        })
+
+    }
+
+    function double_check() {
+        let id = document.getElementById('sign-up-id').value // 회원가입 폼 ID칸에 작성한 ID값
+        axios.post('http://localhost:8000/double-check', {
+            id : id 
+        })
+
+        .then((res) => {
+            console.log(res.data);
+            setID_check(res.data)
+
+        })
+
+    }
+
+
     return (
         <>
-        <div className={cs("login")}>
-            <form action="/login" method="POST">
-                <input type='text' name="id"></input>
-                <input type='password' name="pw"></input>
-                <button type="submit">전송</button>
-            </form>
+        <div className={cs("sign-up")}>
+            {/* <form action="/sign-up" method="POST"> */}
+                <div className={cs("sign-up-id")}>
+                <input type='text' id="sign-up-id" name="sign-up-id"></input>
+                <button onClick={()=>{ double_check() }}>중복확인</button>
+                </div>
+                <input type='password' id="sign-up-pw" name="sign-up-pw"></input>
+                <button type="submit" onClick={()=> { sign_up() }}>회원가입</button>
+            {/* </form> */}
+
         </div>
         </>
     )
