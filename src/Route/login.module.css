@@ -106,7 +106,7 @@
     left: 50%;
 
     width: 480px;
-    height: 450px;
+    height: 500px;
 
     /* text-align: center; */
     /* color: white; */
@@ -134,7 +134,7 @@
     font-size: 24px;
 }
 
-.signup-modal p {
+.flex p:first-child {
     margin-left: 20px;
     width: 30%;
 }
@@ -152,5 +152,13 @@
     font-weight: bold;
     background-color: rgba(0, 0, 255, 0.61);
     border: none;
+    cursor: pointer;
 
+}
+.flex input {
+    width: 200px;
+}
+.flex i {
+    display: none;
+    margin: 5px;
 }
