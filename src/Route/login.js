@@ -13,7 +13,7 @@ const cs = classNames.bind(style);
 function Login() {
 
     let [id_double, setId_double] = useState('')
-    let [id_check, setId_check] = useState('')
+    let [ID_check, setID_check] = useState('')
     let [pw_check, setPw_check] = useState('')
     let [em_check, setEm_check] = useState('')
     let [ph_check, setPh_check] = useState('')
@@ -26,7 +26,7 @@ function Login() {
         let em = document.getElementById('sign-up-em').value
         let ph = document.getElementById('sign-up-phone').value
 
-        if (id_double == true && id_check == true && pw_check == true && em_check == true && ph_check == true) {
+        if (id_double == true && ID_check == true && pw_check == true && em_check == true && ph_check == true) {
             axios.post('http://localhost:8000/sign-up', {
                 name: name,
                 id: id,
@@ -41,14 +41,20 @@ function Login() {
                     console.log("실패");
                 });
             Swal.fire('회원가입 완료! 환영합니다.')
+            name = ''
+            id = ''
+            pw = ''
+            em = ''
+            ph = ''
+            document.getElementById('signup-container').style.display = 'none'
 
         } else {
-            console.log('아님');
-            // console.log(id_double);
-            console.log(id_check);
-            // console.log(pw_check);
-            // console.log(em_check);
-            // console.log(ph_check);
+            Swal.fire({
+                title: "Error!",
+                text: "정보를 다시 확인하여 주세요.",
+                icon: "error",
+                confirmButtonText: "확인"
+            })
         }
 
 
@@ -64,8 +70,10 @@ function Login() {
             .then(function (res) {
 
                 if (res.data == true) {
+                    document.getElementById('sign-up-id').style.borderColor = 'green'
                     Swal.fire('사용 가능한 아이디 입니다.')
                 } else {
+                    document.getElementById('sign-up-id').style.borderColor = 'red'
                     Swal.fire('이미 사용중인 아이디 입니다.')
                 }
                 setId_double(res.data)
@@ -77,11 +85,13 @@ function Login() {
     //아이디 유효성 검사
     const checkid = (e) => {
         //  6 ~ 20자 영문, 숫자 조합
-        var regExp = /^[a-z]+[a-z0-9]{5,19}$/g;
+        var regExp = /^[a-z]+[a-z0-9]{5,19}$/
         // 형식에 맞는 경우 true 리턴
         console.log('아이디 유효성 검사 :: ', regExp.test(e.target.value))
-        setId_check(regExp.test(e.target.value))
+        setID_check(regExp.test(e.target.value))
+
     }
+
     //비밀번호 유효성 검사
     const checkPassword = (e) => {
         //  8 ~ 10자 영문, 숫자 조합
@@ -89,6 +99,11 @@ function Login() {
         // 형식에 맞는 경우 true 리턴
         console.log('비밀번호 유효성 검사 :: ', regExp.test(e.target.value))
         setPw_check(regExp.test(e.target.value))
+        if (regExp.test(e.target.value) == true) {
+            e.target.style.borderColor = 'green'
+        } else {
+            e.target.style.borderColor = 'red'
+        }
 
     }
 
@@ -97,9 +112,9 @@ function Login() {
         let pw1 = document.getElementById('sign-up-pw').value
         let pw2 = document.getElementById('pw-check').value
         if (pw1 == pw2) {
-            console.log('같음');
+            e.target.style.borderColor = 'green'
         } else {
-            console.log('다름');
+            e.target.style.borderColor = 'red'
         }
     }
 
@@ -109,6 +124,12 @@ function Login() {
         // 형식에 맞는 경우 true 리턴
         console.log('이메일 유효성 검사 :: ', regExp.test(e.target.value))
         setEm_check(regExp.test(e.target.value))
+
+        if (regExp.test(e.target.value) == true) {
+            e.target.style.borderColor = 'green'
+        } else {
+            e.target.style.borderColor = 'red'
+        }
 
     }
 
@@ -121,11 +142,15 @@ function Login() {
         // 형식에 맞는 경우 true 리턴
         console.log('핸드폰번호 유효성 검사 :: ', regExp.test(e.target.value))
         setPh_check(regExp.test(e.target.value))
+
+        if (regExp.test(e.target.value) == true) {
+            e.target.style.borderColor = 'green'
+        } else {
+            e.target.style.borderColor = 'red'
+        }
     }
 
 
-    console.log(document.querySelector('.sign-pw .fa-xmark'));
-    // document.querySelector('.sign-pw .fa-xmark').style.display = 'block'
 
     return (
         <>
@@ -155,49 +180,51 @@ function Login() {
                 {/* 회원가입 */}
                 <div id='signup-container' className={cs("signup-container")}>
                     <div className={cs("signup-modal")}>
-                        <div className={cs("sign-header")}>
-                            <i class="fa-solid fa-xmark" onClick={() => { document.getElementById('signup-container').style.display = 'none' }}></i>
-                            <h1>SIGN UP</h1>
-                        </div>
-
-                        <div className={cs("flex")}>
-                            <p>이름 : </p>
-                            <div className={cs("")}>
-                                <input id="sign-up-name" type='text' />
+                        {/* <form> */}
+                            <div className={cs("sign-header")}>
+                                <i class="fa-solid fa-xmark" onClick={() => { document.getElementById('signup-container').style.display = 'none' }}></i>
+                                <h1>SIGN UP</h1>
                             </div>
 
-                        </div>
+                            <div className={cs("flex")}>
+                                <p>이름 : </p>
+                                <div className={cs("")}>
+                                    <input id="sign-up-name" type='text' />
+                                </div>
 
-                        <div className={cs("flex", 'sign-id')}>
-                            <p>아이디 :</p>
-                            <input id="sign-up-id" type='text' placeholder="6 ~ 20자 영문,숫자로 입력" onBlur={checkid} />
-                            <button style={{ marginLeft: '10px' }} onClick={() => { double_check() }}>중복확인</button>
-                        </div>
+                            </div>
 
-                        <div className={cs("flex", 'sign-pw')}>
-                            <p>비밀번호 : </p>
-                            <input id="sign-up-pw" type='password' placeholder="8 ~ 10자 영문,숫자로 입력" onBlur={checkPassword} />
-                            <i class="fa-solid fa-check"></i>
-                            <i class="fa-solid fa-xmark"></i>
-                        </div>
-                        <div className={cs("flex")}>
-                            <p>비밀번호 확인 :</p>
-                            <input id="pw-check" type='password' onKeyUp={checkpw} />
-                            <i class="fa-solid fa-check"></i>
-                        </div>
+                            <div className={cs("flex", 'sign-id')}>
+                                <p>아이디 :</p>
+                                <input id="sign-up-id" type='text' placeholder="6 ~ 20자 영문,숫자로 입력" onBlur={checkid} />
+                                <button style={{ marginLeft: '10px' }} onClick={() => { double_check() }}>중복확인</button>
+                            </div>
 
-                        <div className={cs("flex")}>
-                            <p>휴대폰 번호 :</p>
-                            <input id="sign-up-phone" type='text' placeholder=" - 을 포함한 번호 입력 " onBlur={checkPhonenumber} />
-                            <i class="fa-solid fa-check"></i>
-                        </div>
+                            <div className={cs("flex", 'sign-pw')}>
+                                <p>비밀번호 : </p>
+                                <input id="sign-up-pw" type='password' placeholder="8 ~ 10자 영문,숫자로 입력" onBlur={checkPassword} />
+                                <i class="fa-solid fa-check"></i>
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+                            <div className={cs("flex")}>
+                                <p>비밀번호 확인 :</p>
+                                <input id="pw-check" type='password' onKeyUp={checkpw} />
+                                <i class="fa-solid fa-check"></i>
+                            </div>
 
-                        <div className={cs("flex")}>
-                            <p>이메일 :</p>
-                            <input id="sign-up-em" type='text' onBlur={checkEmail} />
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                        <button className={cs("sign-up-btn")} onClick={sign_up}>회원가입</button>
+                            <div className={cs("flex")}>
+                                <p>휴대폰 번호 :</p>
+                                <input id="sign-up-phone" type='text' placeholder=" - 을 포함한 번호 입력 " onBlur={checkPhonenumber} />
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+
+                            <div className={cs("flex")}>
+                                <p>이메일 :</p>
+                                <input id="sign-up-em" type='text' onBlur={checkEmail} />
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <button className={cs("sign-up-btn")} onClick={sign_up}>회원가입</button>
+                        {/* </form> */}
 
 
                     </div>

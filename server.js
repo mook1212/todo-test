@@ -94,7 +94,7 @@ app.post('/double-check', (req, res) => {
 // 회원가입
 app.post('/sign-up', (req, res) => {
 
-    db.collection('sign').insertOne({ id: req.body.id , pw: req.body.pw }, function (에러, 결과) {
+    db.collection('sign').insertOne({ name : req.body.name, id: req.body.id , pw: req.body.pw, email : req.body.em, phone : req.body.ph }, function (에러, 결과) {
         console.log('회원가입 완료');
     })
 
