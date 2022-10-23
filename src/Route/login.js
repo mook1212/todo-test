@@ -150,6 +150,31 @@ function Login() {
         }
     }
 
+    // 로그인
+    function sign_in() {
+
+        let id = document.getElementById('sign-in-id').value
+        let pw = document.getElementById('sign-in-pw').value
+
+        if (id == '' || pw == '') {
+            Swal.fire('아이디 또는 비밀번호를 확인해 주세요.')
+        } else {
+            axios.post('http://localhost:8000/login', {
+                id: id,
+                pw: pw,
+            })
+                .then(res => {
+                    console.log(res.data);
+                    if (res.data == id) {
+                        window.localStorage.setItem('token', id)
+                        window.location.href = '/'
+                    } else {
+                        Swal.fire('존재하지 않는 회원입니다.')
+                    }
+                })
+        }
+
+    }
 
 
     return (
@@ -160,17 +185,19 @@ function Login() {
                 <div className={cs("login-container")}>
                     <div className={cs("login-modal")}>
                         <h1>LOGIN</h1>
+
                         <div className={cs("id-input")}>
                             <i class="fa-solid fa-user"></i>
-                            <input type='text' placeholder="아이디를 입력해 주세요." />
+                            <input id="sign-in-id" type='text' name="id" placeholder="아이디를 입력해 주세요." />
                         </div>
                         <div className={cs("pw-input")}>
                             <i class="fa-solid fa-lock"></i>
-                            <input type='password' placeholder="비밀번호를 입력해 주세요." />
+                            <input id="sign-in-pw" type='password' name="pw" placeholder="비밀번호를 입력해 주세요." />
                         </div>
+                        <button type="submit">버튼</button>
 
                         <div className={cs("sign")}>
-                            <button>로그인</button>
+                            <button onClick={sign_in}>로그인</button>
                             <button onClick={() => { document.getElementById('signup-container').style.display = 'block' }}>회원가입</button>
                         </div>
                     </div>
@@ -181,49 +208,49 @@ function Login() {
                 <div id='signup-container' className={cs("signup-container")}>
                     <div className={cs("signup-modal")}>
                         {/* <form> */}
-                            <div className={cs("sign-header")}>
-                                <i class="fa-solid fa-xmark" onClick={() => { document.getElementById('signup-container').style.display = 'none' }}></i>
-                                <h1>SIGN UP</h1>
+                        <div className={cs("sign-header")}>
+                            <i class="fa-solid fa-xmark" onClick={() => { document.getElementById('signup-container').style.display = 'none' }}></i>
+                            <h1>SIGN UP</h1>
+                        </div>
+
+                        <div className={cs("flex")}>
+                            <p>이름 : </p>
+                            <div className={cs("")}>
+                                <input id="sign-up-name" type='text' />
                             </div>
 
-                            <div className={cs("flex")}>
-                                <p>이름 : </p>
-                                <div className={cs("")}>
-                                    <input id="sign-up-name" type='text' />
-                                </div>
+                        </div>
 
-                            </div>
+                        <div className={cs("flex", 'sign-id')}>
+                            <p>아이디 :</p>
+                            <input id="sign-up-id" type='text' placeholder="6 ~ 20자 영문,숫자로 입력" onBlur={checkid} />
+                            <button style={{ marginLeft: '10px' }} onClick={double_check}>중복확인</button>
+                        </div>
 
-                            <div className={cs("flex", 'sign-id')}>
-                                <p>아이디 :</p>
-                                <input id="sign-up-id" type='text' placeholder="6 ~ 20자 영문,숫자로 입력" onBlur={checkid} />
-                                <button style={{ marginLeft: '10px' }} onClick={() => { double_check() }}>중복확인</button>
-                            </div>
+                        <div className={cs("flex", 'sign-pw')}>
+                            <p>비밀번호 : </p>
+                            <input id="sign-up-pw" type='password' placeholder="8 ~ 10자 영문,숫자로 입력" onBlur={checkPassword} />
+                            <i class="fa-solid fa-check"></i>
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                        <div className={cs("flex")}>
+                            <p>비밀번호 확인 :</p>
+                            <input id="pw-check" type='password' onKeyUp={checkpw} />
+                            <i class="fa-solid fa-check"></i>
+                        </div>
 
-                            <div className={cs("flex", 'sign-pw')}>
-                                <p>비밀번호 : </p>
-                                <input id="sign-up-pw" type='password' placeholder="8 ~ 10자 영문,숫자로 입력" onBlur={checkPassword} />
-                                <i class="fa-solid fa-check"></i>
-                                <i class="fa-solid fa-xmark"></i>
-                            </div>
-                            <div className={cs("flex")}>
-                                <p>비밀번호 확인 :</p>
-                                <input id="pw-check" type='password' onKeyUp={checkpw} />
-                                <i class="fa-solid fa-check"></i>
-                            </div>
+                        <div className={cs("flex")}>
+                            <p>휴대폰 번호 :</p>
+                            <input id="sign-up-phone" type='text' placeholder=" - 을 포함한 번호 입력 " onBlur={checkPhonenumber} />
+                            <i class="fa-solid fa-check"></i>
+                        </div>
 
-                            <div className={cs("flex")}>
-                                <p>휴대폰 번호 :</p>
-                                <input id="sign-up-phone" type='text' placeholder=" - 을 포함한 번호 입력 " onBlur={checkPhonenumber} />
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-
-                            <div className={cs("flex")}>
-                                <p>이메일 :</p>
-                                <input id="sign-up-em" type='text' onBlur={checkEmail} />
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-                            <button className={cs("sign-up-btn")} onClick={sign_up}>회원가입</button>
+                        <div className={cs("flex")}>
+                            <p>이메일 :</p>
+                            <input id="sign-up-em" type='text' onBlur={checkEmail} />
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <button className={cs("sign-up-btn")} onClick={sign_up}>회원가입</button>
                         {/* </form> */}
 
 

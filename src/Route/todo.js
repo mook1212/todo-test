@@ -22,6 +22,9 @@ function Todo() {
 
     let [re, setRe] = useState(1)
 
+    let [token, setToken] = useState(localStorage.getItem('token'))
+    // console.log(token);
+
 
 
 
@@ -32,8 +35,34 @@ function Todo() {
 
     // DB에 일정 데이터 조회
 
+
+    // useEffect(() => {
+    //     axios.get('http://localhost:8000/list-confirm')
+
+    //         .then(res => {
+
+    //             // 현재 날짜와 맞는 title 데이터 조회
+    //             const DBfilter = res.data.filter((data) => {
+    //                 return data.title === moment(value).format("YYYY년 MM월 DD일")
+    //             })
+    //             let list = DBfilter.map(a => a.name)
+    //             setFilter(DBfilter)
+
+    //             let day = res.data.map(a => a.title);
+    //             setDBDate(day)
+
+    //         })
+
+    //         .catch(() => {
+    //             console.log("실패");
+    //         });
+
+    // }, [moment(value).format("YYYY년 MM월 DD일"), block, re])
+
     useEffect(() => {
-        axios.get('http://localhost:8000/list-confirm')
+        axios.post('http://localhost:8000/list-confirm', {
+            local_id : token
+        })
 
             .then(res => {
 
@@ -63,6 +92,7 @@ function Todo() {
         let val = document.getElementById('add-input').value
         let id = filter.map(a => a.name)
         axios.post('http://localhost:8000/todolist', {
+            local_id : token,
             title: moment(value).format("YYYY년 MM월 DD일"),
             name: val
         })
@@ -81,6 +111,7 @@ function Todo() {
     function list_delete(i) {
         let id = filter[i]._id
         axios.delete('http://localhost:8000/list-delete', {
+            local_id : token,
             data: { _id: id }
         })
             .then(function (res) {
@@ -100,6 +131,7 @@ function Todo() {
         let memo = document.getElementById(memobox).value
 
         axios.put('http://localhost:8000/list-update', {
+            local_id : token,
             id: id,
             memo: memo
         })
@@ -107,7 +139,9 @@ function Todo() {
                 console.log(res);
                 console.log(res.data);
                 setRe(re + 1)
-                axios.get('http://localhost:8000/list-confirm')
+                axios.post('http://localhost:8000/list-confirm', {
+                    local_id : token
+                })
 
                     .then(res => {
                         console.log(res.data);
