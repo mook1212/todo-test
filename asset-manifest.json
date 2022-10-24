@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/mook1212/todo-test.git/static/css/main.59be1fc5.css",
+    "main.js": "/mook1212/todo-test.git/static/js/main.a183d020.js",
+    "static/js/787.63e47474.chunk.js": "/mook1212/todo-test.git/static/js/787.63e47474.chunk.js",
+    "index.html": "/mook1212/todo-test.git/index.html",
+    "main.59be1fc5.css.map": "/mook1212/todo-test.git/static/css/main.59be1fc5.css.map",
+    "main.a183d020.js.map": "/mook1212/todo-test.git/static/js/main.a183d020.js.map",
+    "787.63e47474.chunk.js.map": "/mook1212/todo-test.git/static/js/787.63e47474.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.59be1fc5.css",
+    "static/js/main.a183d020.js"
+  ]
+}
