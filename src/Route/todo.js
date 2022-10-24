@@ -37,7 +37,7 @@ function Todo() {
 
 
     // useEffect(() => {
-    //     axios.get('http://localhost:8000/list-confirm')
+    //     axios.get('https://todo-project-366420.du.r.appspot.com/list-confirm')
 
     //         .then(res => {
 
@@ -60,7 +60,7 @@ function Todo() {
     // }, [moment(value).format("YYYY년 MM월 DD일"), block, re])
 
     useEffect(() => {
-        axios.post('http://localhost:8000/list-confirm', {
+        axios.post('https://todo-project-366420.du.r.appspot.com/list-confirm', {
             local_id : token
         })
 
@@ -91,7 +91,7 @@ function Todo() {
     function list_add() {
         let val = document.getElementById('add-input').value
         let id = filter.map(a => a.name)
-        axios.post('http://localhost:8000/todolist', {
+        axios.post('https://todo-project-366420.du.r.appspot.com/todolist', {
             local_id : token,
             title: moment(value).format("YYYY년 MM월 DD일"),
             name: val
@@ -110,7 +110,7 @@ function Todo() {
     // 일정 삭제
     function list_delete(i) {
         let id = filter[i]._id
-        axios.delete('http://localhost:8000/list-delete', {
+        axios.delete('https://todo-project-366420.du.r.appspot.com/list-delete', {
             local_id : token,
             data: { _id: id }
         })
@@ -130,7 +130,7 @@ function Todo() {
         let memobox = 'memo' + i
         let memo = document.getElementById(memobox).value
 
-        axios.put('http://localhost:8000/list-update', {
+        axios.put('https://todo-project-366420.du.r.appspot.com/list-update', {
             local_id : token,
             id: id,
             memo: memo
@@ -139,7 +139,7 @@ function Todo() {
                 console.log(res);
                 console.log(res.data);
                 setRe(re + 1)
-                axios.post('http://localhost:8000/list-confirm', {
+                axios.post('https://todo-project-366420.du.r.appspot.com/list-confirm', {
                     local_id : token
                 })
 

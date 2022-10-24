@@ -18,7 +18,7 @@ MongoClient.connect('mongodb+srv://skdo223:apsode1@cluster0.udjmfja.mongodb.net/
     if (에러) return console.log(에러)
     db = client.db('todoapp');
 
-    app.listen(8000, function () {
+    app.listen(8080, function () {
         console.log('listening on 8080')
     });
 });

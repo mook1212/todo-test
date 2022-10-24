@@ -27,7 +27,7 @@ function Login() {
         let ph = document.getElementById('sign-up-phone').value
 
         if (id_double == true && ID_check == true && pw_check == true && em_check == true && ph_check == true) {
-            axios.post('http://localhost:8000/sign-up', {
+            axios.post('https://todo-project-366420.du.r.appspot.com/sign-up', {
                 name: name,
                 id: id,
                 pw: pw,
@@ -63,7 +63,7 @@ function Login() {
     // 아이디 중복검사
     function double_check() {
         let id = document.getElementById('sign-up-id').value // 회원가입 폼 ID칸에 작성한 ID값
-        axios.post('http://localhost:8000/double-check', {
+        axios.post('https://todo-project-366420.du.r.appspot.com/double-check', {
             id: id
         })
 
@@ -159,7 +159,7 @@ function Login() {
         if (id == '' || pw == '') {
             Swal.fire('아이디 또는 비밀번호를 확인해 주세요.')
         } else {
-            axios.post('http://localhost:8000/login', {
+            axios.post('https://todo-project-366420.du.r.appspot.com/login', {
                 id: id,
                 pw: pw,
             })
