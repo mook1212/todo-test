@@ -13,10 +13,10 @@ function App() {
     <div>
 
       <Routes>
-        <Route path='/' element={<Main></Main>} />
+        <Route path='https://github.com/mook1212/todo-test.git' element={<Main></Main>} />
 
-        <Route path='/todo' element={<Todo></Todo>} />
-        <Route path='/login' element={<Login></Login>} />
+        <Route path='https://github.com/mook1212/todo-test.git/todo' element={<Todo></Todo>} />
+        <Route path='https://github.com/mook1212/todo-test.git/login' element={<Login></Login>} />
 
       </Routes>
 
